@@ -1,0 +1,10 @@
+# Caminho para as pastas de treino e validação
+# O YOLOv8 entende caminhos relativos, então isso funciona perfeitamente
+train: ./dataset/images/train
+val: ./dataset/images/val
+
+# Número de classes
+nc: 1
+
+# Nomes das classes (em ordem)
+names: ['tree']
