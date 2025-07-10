@@ -3,19 +3,27 @@ os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
 from ultralytics import YOLO
 
 def main():
-    # Carrega um modelo pré-treinado.
-    # 'yolov8n.pt' é o menor e mais rápido. Outras opções: yolov8s, yolov8m, yolov8l, yolov8x.
-    # O YOLO irá baixar o modelo automaticamente na primeira vez que você rodar.
-    model = YOLO('yolov8n.pt')
+    model = YOLO('yolo11n.pt')
 
     # Inicia o treinamento
-    # Todos os parâmetros importantes estão aqui.
     results = model.train(
-        data='trees_dataset.yaml',  # Caminho para o seu arquivo .yaml
-        epochs=100,                 # Número de épocas para treinar
-        imgsz=640,                  # Tamanho das imagens (altura e largura)
-        batch=8,                    # Número de imagens por lote (reduza se tiver erro de memória)
-        name='yolov8n_trees_custom' # Nome do experimento (os resultados serão salvos em 'runs/detect/yolov8n_trees_custom')
+        data='trees_dataset.yaml',
+        epochs=150,
+        imgsz=640,
+        batch=10, # Mantenha o maior valor que sua GPU aguentar sem dar erro de memória
+        name='yolov11_trees', # Mude o nome para não sobrescrever o anterior
+
+        augment=True,
+        fliplr=0.5,         # Espelhamento horizontal
+        hsv_h=0.015,        # Variação de Matiz (cor)
+        hsv_s=0.7,          # Variação de Saturação
+        hsv_v=0.4,          # Variação de Valor (brilho)
+        degrees=10.0,       # Rotação
+        translate=0.1,      # Translação
+        scale=0.1,          # Zoom
+
+        lr0=0.01,           # Taxa de aprendizagem inicial (o padrão já é ótimo)
+        lrf=0.01            # Fator da taxa de aprendizagem final (Final LR = lr0 * lrf)
     )
 
 if __name__ == '__main__':
